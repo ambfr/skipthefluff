@@ -7,9 +7,9 @@ const api = axios.create({
   timeout: 30000,
 })
 
-export const searchVideos = async (query, filter = 'beginner') => {
-  const response = await api.get('/search', {
-    params: { query, filter }
+export const rankVideos = async (query, intent = 'beginner') => {
+  const response = await api.get('/rank', {
+    params: { query, intent }
   })
   return response.data
 }

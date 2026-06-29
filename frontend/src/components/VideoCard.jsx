@@ -18,18 +18,16 @@ function formatDuration(iso) {
   return `${m}m ${s.toString().padStart(2, '0')}s`
 }
 
-const RANK_LABELS = ['Best overall', 'Quick learning', 'Best for beginners', 'Most detailed']
-
-export default function VideoCard({ video, rank }) {
-  const { title, channel, views, duration, thumbnail_url, video_id } = video
-  const score = Math.floor(70 + Math.random() * 25) // placeholder until Phase 2
-  const label = RANK_LABELS[rank] || null
+export default function VideoCard({ video }) {
+  const { title, channel, views, duration, thumbnail_url, video_id, score, label, rank, ai_tag } = video
 
   return (
-    <div className={`bg-white rounded-2xl p-4 flex gap-4 transition-shadow hover:shadow-md ${rank === 0 ? 'border-2 border-[#E8294C]' : 'border border-pink-100'}`}>
+    <div className={`bg-white rounded-2xl p-4 flex gap-4 transition-shadow hover:shadow-md ${
+      rank === 0 ? 'border-2 border-[#E8294C]' : 'border border-pink-100'
+    }`}>
       {/* Thumbnail */}
       <a href={`https://youtube.com/watch?v=${video_id}`} target="_blank" rel="noopener noreferrer" className="flex-shrink-0">
-        <div className="w-28 h-20 rounded-xl overflow-hidden bg-pink-100 flex items-center justify-center relative">
+        <div className="w-28 h-20 rounded-xl overflow-hidden bg-pink-100 flex items-center justify-center">
           {thumbnail_url ? (
             <img src={thumbnail_url} alt={title} className="w-full h-full object-cover" />
           ) : (
@@ -46,6 +44,7 @@ export default function VideoCard({ video, rank }) {
 
       {/* Info */}
       <div className="flex-1 min-w-0">
+        {/* Title + label */}
         <div className="flex items-start justify-between gap-2 mb-1">
           <a href={`https://youtube.com/watch?v=${video_id}`} target="_blank" rel="noopener noreferrer"
             className="text-sm font-semibold text-gray-900 leading-snug hover:text-[#E8294C] transition line-clamp-2"
@@ -85,23 +84,25 @@ export default function VideoCard({ video, rank }) {
         </div>
 
         {/* Score bar */}
-        <div className="flex items-center gap-2 mb-2.5">
+        <div className="flex items-center gap-2 mb-2">
           <span className="text-xs text-gray-400 italic">Score</span>
           <div className="flex-1 h-1.5 bg-pink-100 rounded-full overflow-hidden">
-            <div className="h-full bg-[#E8294C] rounded-full transition-all" style={{width: `${score}%`}} />
+            <div
+              className="h-full bg-[#E8294C] rounded-full transition-all duration-500"
+              style={{width: `${Math.min(score, 100)}%`}}
+            />
           </div>
-          <span className="text-xs font-semibold text-gray-700">{score}</span>
+          <span className="text-xs font-semibold text-gray-700">{Math.round(score)}</span>
         </div>
 
-        {/* Sentiment chips — placeholders for Phase 3 */}
-        <div className="flex gap-1.5 flex-wrap">
-          {rank === 0 && (
-            <>
-              <span className="text-xs border border-pink-200 text-gray-500 px-2 py-0.5 rounded-full">✓ Clear explanation</span>
-              <span className="text-xs border border-pink-200 text-gray-500 px-2 py-0.5 rounded-full">✓ Great examples</span>
-            </>
-          )}
-        </div>
+        {/* AI tag chip */}
+        {ai_tag && (
+          <div className="flex gap-1.5 flex-wrap">
+            <span className="text-xs border border-pink-200 text-gray-500 px-2 py-0.5 rounded-full">
+              ✓ {ai_tag}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   )
