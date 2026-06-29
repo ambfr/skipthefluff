@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function StatsBar({ count, query, topScore }) {
+export default function StatsBar({ count, query, topScore, commentsRead }) {
   if (!query) return null
 
   return (
@@ -8,8 +8,8 @@ export default function StatsBar({ count, query, topScore }) {
       {[
         { value: topScore ? Math.round(topScore) : '—', label: 'Top score' },
         { value: count || '—', label: 'Analyzed' },
-        { value: '—', label: 'Comments read' },
-        { value: '~3s', label: 'Analysis time' },
+        { value: commentsRead || '—', label: 'Comments read' },
+        { value: '~5s', label: 'Analysis time' },
       ].map((stat) => (
         <div key={stat.label}>
           <div className="text-2xl font-bold text-gray-900">{stat.value}</div>

@@ -192,3 +192,11 @@ def rank_and_categorize(videos: list[VideoResult], intent: str = "beginner"):
         })
 
     return results
+
+
+def compute_score_with_sentiment(video: VideoResult, intent: str = "beginner", sentiment_score: float = 50.0) -> float:
+    """Composite score including sentiment from comments."""
+    base_score = compute_score(video, intent)
+    # Blend base score (80%) with sentiment score (20%)
+    final = (base_score * 0.8) + (sentiment_score * 0.2)
+    return round(final, 1)

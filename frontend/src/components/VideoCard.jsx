@@ -19,7 +19,11 @@ function formatDuration(iso) {
 }
 
 export default function VideoCard({ video }) {
-  const { title, channel, views, duration, thumbnail_url, video_id, score, label, rank, ai_tag } = video
+  const {
+    title, channel, views, duration, thumbnail_url, video_id,
+    score, label, rank, ai_tag,
+    positive_signals = [], negative_signals = []
+  } = video
 
   return (
     <div className={`bg-white rounded-2xl p-4 flex gap-4 transition-shadow hover:shadow-md ${
@@ -46,9 +50,13 @@ export default function VideoCard({ video }) {
       <div className="flex-1 min-w-0">
         {/* Title + label */}
         <div className="flex items-start justify-between gap-2 mb-1">
-          <a href={`https://youtube.com/watch?v=${video_id}`} target="_blank" rel="noopener noreferrer"
+          <a
+            href={`https://youtube.com/watch?v=${video_id}`}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-semibold text-gray-900 leading-snug hover:text-[#E8294C] transition line-clamp-2"
-            style={{fontFamily: "'Playfair Display', serif"}}>
+            style={{fontFamily: "'Playfair Display', serif"}}
+          >
             {title}
           </a>
           {label && (
@@ -84,7 +92,7 @@ export default function VideoCard({ video }) {
         </div>
 
         {/* Score bar */}
-        <div className="flex items-center gap-2 mb-2">
+        <div className="flex items-center gap-2 mb-2.5">
           <span className="text-xs text-gray-400 italic">Score</span>
           <div className="flex-1 h-1.5 bg-pink-100 rounded-full overflow-hidden">
             <div
@@ -95,12 +103,24 @@ export default function VideoCard({ video }) {
           <span className="text-xs font-semibold text-gray-700">{Math.round(score)}</span>
         </div>
 
-        {/* AI tag chip */}
-        {ai_tag && (
+        {/* Sentiment chips */}
+        {(positive_signals.length > 0 || negative_signals.length > 0 || ai_tag) && (
           <div className="flex gap-1.5 flex-wrap">
-            <span className="text-xs border border-pink-200 text-gray-500 px-2 py-0.5 rounded-full">
-              ✓ {ai_tag}
-            </span>
+            {positive_signals.map((sig) => (
+              <span key={sig} className="text-xs border border-pink-200 text-gray-500 px-2 py-0.5 rounded-full">
+                ✓ {sig}
+              </span>
+            ))}
+            {negative_signals.map((sig) => (
+              <span key={sig} className="text-xs border border-gray-200 text-gray-400 px-2 py-0.5 rounded-full">
+                — {sig}
+              </span>
+            ))}
+            {ai_tag && positive_signals.length === 0 && (
+              <span className="text-xs border border-pink-200 text-gray-500 px-2 py-0.5 rounded-full">
+                ✓ {ai_tag}
+              </span>
+            )}
           </div>
         )}
       </div>

@@ -25,6 +25,10 @@ class RankedVideo(BaseModel):
     rank: int
     ai_summary: Optional[str] = None
     ai_tag: Optional[str] = None
+    positive_signals: list[str] = []
+    negative_signals: list[str] = []
+    sentiment_score: Optional[float] = None
+    comments_read: int = 0
 
 class SearchResponse(BaseModel):
     query: str
@@ -37,3 +41,4 @@ class RankResponse(BaseModel):
     results: list[RankedVideo]
     total: int
     top_score: float
+    total_comments_read: int

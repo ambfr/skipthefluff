@@ -11,6 +11,7 @@ export default function App() {
   const [error, setError] = useState(null)
   const [query, setQuery] = useState('')
   const [topScore, setTopScore] = useState(null)
+  const [commentsRead, setCommentsRead] = useState(0)
 
   const handleSearch = async (q, intent) => {
     setLoading(true)
@@ -20,6 +21,7 @@ export default function App() {
       const data = await rankVideos(q, intent)
       setVideos(data.results || [])
       setTopScore(data.top_score || null)
+      setCommentsRead(data.total_comments_read || 0)
     } catch (err) {
       setError('Something went wrong. Please try again.')
       setVideos([])
@@ -44,7 +46,7 @@ export default function App() {
           <h1 className="text-4xl font-bold text-gray-900 leading-tight mb-3"
             style={{fontFamily: "'Playfair Display', serif"}}>
             Find the{' '}
-            <em className="text-[#E8294C] not-italic font-bold"
+            <em className="text-[#E8294C]"
               style={{fontFamily: "'Playfair Display', serif", fontStyle: "italic"}}>
               best
             </em>{' '}
@@ -63,6 +65,7 @@ export default function App() {
         <div className="mt-8">
           {loading && (
             <div className="flex flex-col gap-3">
+              <p className="text-xs text-gray-400 text-center mb-2">Reading comments and analyzing videos...</p>
               {[1, 2, 3, 4].map((i) => (
                 <div key={i} className="bg-white border border-pink-100 rounded-2xl p-4 flex gap-4 animate-pulse">
                   <div className="w-28 h-20 rounded-xl bg-pink-100 flex-shrink-0" />
@@ -70,6 +73,10 @@ export default function App() {
                     <div className="h-3 bg-pink-100 rounded w-3/4" />
                     <div className="h-3 bg-pink-100 rounded w-1/2" />
                     <div className="h-2 bg-pink-50 rounded w-full mt-3" />
+                    <div className="flex gap-2 mt-2">
+                      <div className="h-5 bg-pink-50 rounded-full w-24" />
+                      <div className="h-5 bg-pink-50 rounded-full w-20" />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -108,7 +115,7 @@ export default function App() {
           )}
         </div>
 
-        <StatsBar count={videos.length} query={query} topScore={topScore} />
+        <StatsBar count={videos.length} query={query} topScore={topScore} commentsRead={commentsRead} />
       </main>
 
       <footer className="text-center text-xs text-gray-300 py-4 border-t border-pink-100">
