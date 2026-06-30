@@ -13,12 +13,12 @@ export default function App() {
   const [topScore, setTopScore] = useState(null)
   const [commentsRead, setCommentsRead] = useState(0)
 
-  const handleSearch = async (q, intent) => {
+  const handleSearch = async (q) => {
     setLoading(true)
     setError(null)
     setQuery(q)
     try {
-      const data = await rankVideos(q, intent)
+      const data = await rankVideos(q, 'beginner')
       setVideos(data.results || [])
       setTopScore(data.top_score || null)
       setCommentsRead(data.total_comments_read || 0)

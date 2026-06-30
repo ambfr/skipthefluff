@@ -1,19 +1,16 @@
 import React, { useState } from 'react'
 
-const FILTERS = ['Beginner', 'Advanced', 'Quick summary', 'Detailed', 'Review', 'News']
-
 export default function SearchBar({ onSearch, loading }) {
   const [query, setQuery] = useState('')
-  const [activeFilter, setActiveFilter] = useState('Beginner')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (query.trim()) onSearch(query.trim(), activeFilter.toLowerCase())
+    if (query.trim()) onSearch(query.trim())
   }
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <div className="relative mb-3">
+      <div className="relative">
         <div className="absolute left-4 top-1/2 -translate-y-1/2 text-white/30">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <circle cx="7" cy="7" r="5.5" stroke="currentColor" strokeWidth="1.5" />
@@ -37,22 +34,6 @@ export default function SearchBar({ onSearch, loading }) {
             <path d="M3 9H15M15 9L10 4M15 9L10 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </button>
-      </div>
-
-      <div className="flex gap-2 flex-wrap">
-        {FILTERS.map((filter) => (
-          <button
-            key={filter}
-            onClick={() => setActiveFilter(filter)}
-            className={`px-4 py-1.5 rounded-full text-sm font-medium border transition-all ${
-              activeFilter === filter
-                ? 'bg-[#E8294C] text-white border-[#E8294C]'
-                : 'bg-transparent text-white/50 border-white/15 hover:border-[#E8294C]/50 hover:text-white/80'
-            }`}
-          >
-            {filter}
-          </button>
-        ))}
       </div>
     </div>
   )
