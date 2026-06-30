@@ -29,7 +29,7 @@ class RankedVideo(BaseModel):
     negative_signals: list[str] = []
     sentiment_score: Optional[float] = None
     comments_read: int = 0
-    video_summary: Optional[str] = None
+    
     is_short: bool = False
 
 class SearchResponse(BaseModel):

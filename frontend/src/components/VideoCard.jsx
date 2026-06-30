@@ -23,14 +23,13 @@ function formatDuration(iso) {
 export default function VideoCard({ video, initiallySaved = false, onUnsave }) {
   const {
     title, channel, views, duration, thumbnail_url, video_id,
-    score, label, rank, ai_tag, video_summary,
+    score, label, rank, ai_tag,
     positive_signals = [], negative_signals = []
   } = video
 
   const { user } = useAuth()
   const [saved, setSaved] = useState(initiallySaved)
   const [saving, setSaving] = useState(false)
-  const [summaryOpen, setSummaryOpen] = useState(false)
 
   const handleToggleSave = async (e) => {
     e.preventDefault()
@@ -177,28 +176,7 @@ export default function VideoCard({ video, initiallySaved = false, onUnsave }) {
           </div>
         )}
 
-        {/* Summary toggle */}
-        {video_summary && (
-          <div>
-            <button
-              onClick={() => setSummaryOpen(!summaryOpen)}
-              className="flex items-center gap-1 text-xs text-[#E8294C]/80 hover:text-[#E8294C] transition font-medium"
-            >
-              <svg
-                width="10" height="10" viewBox="0 0 10 10" fill="none"
-                className={`transition-transform ${summaryOpen ? 'rotate-90' : ''}`}
-              >
-                <path d="M3 1.5L7 5L3 8.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-              {summaryOpen ? 'Hide summary' : "What's in this video?"}
-            </button>
-            {summaryOpen && (
-              <p className="text-xs text-white/50 mt-2 leading-relaxed bg-white/3 border border-white/8 rounded-lg p-3">
-                {video_summary}
-              </p>
-            )}
-          </div>
-        )}
+        
       </div>
     </div>
   )

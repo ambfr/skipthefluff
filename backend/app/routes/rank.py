@@ -5,13 +5,12 @@ from app.services.scoring import (
     apply_content_analysis_adjustment,
     is_short_video,
 )
-from app.services.groq import get_ai_summary, get_video_summary
+from app.services.groq import get_ai_summary
 from app.services.comments import fetch_comments
 from app.services.sentiment import analyze_sentiment
 from app.services.transcript import fetch_transcript
 from app.services.content_analysis import analyze_transcript
 from app.models.video import RankResponse, RankedVideo
-
 router = APIRouter()
 
 @router.get("/rank", response_model=RankResponse)
@@ -101,10 +100,7 @@ async def rank(
                 ai_summary = ai_data.get("summary", "")
                 ai_tag = ai_data.get("tag", "")
 
-            # Video summary for every result
-            transcript = transcripts.get(video.video_id, "")
-            video_summary = await get_video_summary(video.title, video.channel, transcript)
-
+           
             results.append(RankedVideo(
                 video_id=video.video_id,
                 title=video.title,
@@ -123,7 +119,6 @@ async def rank(
                 negative_signals=sentiment.get("negative", []),
                 sentiment_score=sentiment.get("sentiment_score"),
                 comments_read=s.get("comments_count", 0),
-                video_summary=video_summary,
             ))
 
         top_score = results[0].score if results else 0
