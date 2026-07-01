@@ -18,7 +18,7 @@ export default function Header({ activeView, onNavigate }) {
           </svg>
         </div>
         <span style={{fontFamily: "'Playfair Display', serif"}} className="font-bold text-white text-sm sm:text-base tracking-tight italic whitespace-nowrap">
-          SmartTube <span className="text-[#E8294C]">AI</span>
+        SkipThe<span className="text-[#E8294C]">Fluff</span>
         </span>
       </div>
 
